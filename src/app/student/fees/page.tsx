@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Wallet, Banknote, ReceiptText } from "lucide-react";
 import type { InvoiceStatus } from "@prisma/client";
+import { PrintOneButton } from "@/components/print-one-button";
 
 const STATUS_BADGE_VARIANT: Record<InvoiceStatus, "default" | "secondary" | "destructive" | "outline"> = {
   UNPAID: "destructive",
@@ -41,12 +42,14 @@ export default async function StudentFeesPage() {
 
   return (
     <div>
-      <PageHeader title="Fees" description="Your invoices, payments and outstanding balance." />
+      <div className="no-print">
+        <PageHeader title="Fees" description="Your invoices, payments and outstanding balance." />
 
-      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard label="Outstanding Balance" value={`Rs. ${totalOutstanding.toLocaleString()}`} icon={Wallet} />
-        <StatCard label="Total Paid" value={`Rs. ${totalPaid.toLocaleString()}`} icon={Banknote} />
-        <StatCard label="Unpaid Invoices" value={unpaidCount} icon={ReceiptText} />
+        <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <StatCard label="Outstanding Balance" value={`Rs. ${totalOutstanding.toLocaleString()}`} icon={Wallet} />
+          <StatCard label="Total Paid" value={`Rs. ${totalPaid.toLocaleString()}`} icon={Banknote} />
+          <StatCard label="Unpaid Invoices" value={unpaidCount} icon={ReceiptText} />
+        </div>
       </div>
 
       {summaries.length === 0 ? (
@@ -58,7 +61,11 @@ export default async function StudentFeesPage() {
       ) : (
         <div className="space-y-4">
           {summaries.map(({ invoice, total, paid, balance }) => (
-            <Card key={invoice.id}>
+            <Card key={invoice.id} data-print-card={invoice.id}>
+              <div className="print-only px-6 pt-6">
+                <p className="text-lg font-semibold">Brightwood School</p>
+                <p className="text-sm text-muted-foreground">Printed {new Date().toLocaleDateString()}</p>
+              </div>
               <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2">
                 <div>
                   <CardTitle className="text-base">{invoice.invoiceNumber}</CardTitle>
@@ -66,7 +73,10 @@ export default async function StudentFeesPage() {
                     {invoice.academicYear.name} · Due {invoice.dueDate.toLocaleDateString()}
                   </p>
                 </div>
-                <Badge variant={STATUS_BADGE_VARIANT[invoice.status]}>{invoice.status}</Badge>
+                <div className="flex items-center gap-2">
+                  <Badge variant={STATUS_BADGE_VARIANT[invoice.status]}>{invoice.status}</Badge>
+                  <PrintOneButton cardId={invoice.id} />
+                </div>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">

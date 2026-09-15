@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import type { InvoiceStatus } from "@prisma/client";
 import { RecordPaymentDialog } from "./payment-dialog";
 import { EditInvoiceDialog, DeleteInvoiceButton } from "./edit-invoice-dialog";
+import { PrintInvoiceButton } from "./print-button";
 
 const STATUS_BADGE_VARIANT: Record<InvoiceStatus, "default" | "secondary" | "destructive" | "outline"> = {
   UNPAID: "destructive",
@@ -48,16 +49,23 @@ export default async function InvoiceDetailPage({
     <div>
       <Link
         href="/admin/fees"
-        className="mb-4 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+        className="no-print mb-4 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="size-4" /> Back to Fees
       </Link>
+
+      {/* Shown only when printing / saving as PDF */}
+      <div className="print-only mb-6">
+        <p className="text-lg font-semibold">Brightwood School</p>
+        <p className="text-sm text-muted-foreground">Printed {new Date().toLocaleDateString()}</p>
+      </div>
 
       <PageHeader
         title={`Invoice ${invoice.invoiceNumber}`}
         description={`${invoice.academicYear.name} · Issued ${invoice.issueDate.toLocaleDateString()}`}
         action={
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="no-print flex flex-wrap items-center gap-2">
+            <PrintInvoiceButton />
             <EditInvoiceDialog
               invoiceId={invoice.id}
               dueDate={invoice.dueDate.toISOString().slice(0, 10)}

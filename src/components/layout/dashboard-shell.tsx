@@ -27,7 +27,7 @@ export function DashboardShell({
 
   return (
     <div className="flex min-h-screen w-full">
-      <aside className="hidden w-64 shrink-0 flex-col border-r bg-muted/30 md:flex">
+      <aside className="no-print hidden w-64 shrink-0 flex-col border-r bg-muted/30 md:flex">
         <div className="flex h-16 items-center gap-2 border-b px-5">
           <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <GraduationCap className="size-4" />
@@ -55,7 +55,7 @@ export function DashboardShell({
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex h-16 items-center justify-between border-b bg-background px-4 md:hidden">
+        <header className="no-print flex h-16 items-center justify-between border-b bg-background px-4 md:hidden">
           <div className="flex items-center gap-2">
             <MobileNav navItems={navItems} roleLabel={roleLabel} />
             <Link href="/" className="flex items-center gap-2 font-semibold">

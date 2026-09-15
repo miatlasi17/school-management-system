@@ -128,3 +128,23 @@
     @apply font-sans;
   }
 }
+
+.print-only {
+  display: none;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block;
+  }
+  main {
+    padding: 0 !important;
+    background: white !important;
+  }
+  body {
+    background: white !important;
+  }
+}
