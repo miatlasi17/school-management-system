@@ -2,6 +2,8 @@
 
 A full-featured school management system: academics, attendance, exams & report cards, timetable, fees, library, transport, hostel, HR/payroll, notices, events, and internal messaging — with dedicated Admin, Teacher, and Student portals.
 
+**Live:** https://school-management-system-rho-umber.vercel.app (demo password `Password123!` for every seeded account, e.g. `admin@school.test`)
+
 Built entirely on stacks with a free tier suitable for Vercel:
 
 - **[Next.js](https://nextjs.org)** (App Router, TypeScript) — frontend + backend (Server Components, Server Actions, Route Handlers)
@@ -60,23 +62,21 @@ All seeded users share the password `Password123!`.
 | `npm run db:seed`    | Reseed demo data                           |
 | `npm run db:studio`  | Open Prisma Studio to browse the database  |
 
-## Deploying to Vercel (free tier)
+## Deployment (Vercel + Neon, free tier)
 
-1. **Create a Postgres database.** Easiest: [Neon](https://neon.tech) (has a generous free tier and is what Vercel's own "Postgres" storage integration uses under the hood), or provision Vercel Postgres directly from your Vercel project's Storage tab. Copy both the **pooled** connection string (`DATABASE_URL`) and the **direct** connection string (`DIRECT_URL`, used for migrations) — Neon's dashboard labels these clearly.
-2. **Push this repo to GitHub** and import it into Vercel ("Add New Project").
-3. **Set environment variables** in the Vercel project settings:
-   - `DATABASE_URL` — pooled connection string
-   - `DIRECT_URL` — direct connection string
-   - `AUTH_SECRET` — output of `npx auth secret`
-   - `NEXTAUTH_URL` — your production URL (e.g. `https://your-app.vercel.app`) — optional on Vercel (Auth.js can infer it), but recommended
-4. **Run the migration against the production database** once, from your machine (with `DATABASE_URL`/`DIRECT_URL` pointed at the production database):
+This project is deployed at https://school-management-system-rho-umber.vercel.app, set up as follows — the same steps apply if you fork/redeploy it elsewhere:
+
+1. **Database:** a Neon Postgres database, provisioned through Vercel's Marketplace integration (`vercel integration add neon`, or Vercel dashboard → Storage → Neon). This auto-injects `DATABASE_URL` (pooled) and `DATABASE_URL_UNPOOLED` into the project's env vars for Production/Preview/Development. Prisma expects `DIRECT_URL` for migrations, so a `DIRECT_URL` env var was added separately with the same value as `DATABASE_URL_UNPOOLED`.
+2. **GitHub → Vercel:** the repo is connected (`vercel git connect`) so every push to `main` auto-deploys.
+3. **Env vars set on the Vercel project:** `DATABASE_URL`, `DIRECT_URL` (both from Neon, per above), `AUTH_SECRET` (`vercel env add AUTH_SECRET production`, value from `npx auth secret` or `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`).
+4. **Migrations applied once** against the production database:
    ```bash
-   npx prisma migrate deploy
-   npm run db:seed   # optional — only if you want the demo data in production
+   DATABASE_URL="<neon pooled url>" DIRECT_URL="<neon unpooled url>" npx prisma migrate deploy
+   DATABASE_URL="<neon pooled url>" DIRECT_URL="<neon unpooled url>" npm run db:seed   # optional demo data
    ```
-5. **Deploy.** Vercel will run `npm run build`, which runs `prisma generate` automatically via the `postinstall`/`build` scripts.
+5. **Deploy:** `npx vercel deploy --prod` (or just push to `main`, now that GitHub is connected).
 
-No other paid services are required — the whole stack (Next.js on Vercel, Postgres on Neon) fits within free tiers for small-to-medium school usage.
+To redeploy elsewhere from scratch: create a Neon (or any Postgres) database, set the same three env vars in your host of choice, run the migration step above, then deploy — no paid services required, the whole stack fits within free tiers for small-to-medium school usage.
 
 ## Architecture notes
 
