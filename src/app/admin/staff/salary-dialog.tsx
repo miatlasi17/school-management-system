@@ -76,12 +76,12 @@ export function SalaryStructureDialog({
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="basic">Basic salary (₹)</Label>
+            <Label htmlFor="basic">Basic salary (Rs.)</Label>
             <Input id="basic" type="number" step="0.01" min="0" {...register("basic", { valueAsNumber: true })} />
             {errors.basic ? <p className="text-sm text-destructive">{errors.basic.message}</p> : null}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="allowances">Allowances (₹)</Label>
+            <Label htmlFor="allowances">Allowances (Rs.)</Label>
             <Input
               id="allowances"
               type="number"
@@ -92,7 +92,7 @@ export function SalaryStructureDialog({
             {errors.allowances ? <p className="text-sm text-destructive">{errors.allowances.message}</p> : null}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="deductions">Deductions (₹)</Label>
+            <Label htmlFor="deductions">Deductions (Rs.)</Label>
             <Input
               id="deductions"
               type="number"

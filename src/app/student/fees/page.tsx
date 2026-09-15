@@ -44,8 +44,8 @@ export default async function StudentFeesPage() {
       <PageHeader title="Fees" description="Your invoices, payments and outstanding balance." />
 
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard label="Outstanding Balance" value={`₹${totalOutstanding.toLocaleString()}`} icon={Wallet} />
-        <StatCard label="Total Paid" value={`₹${totalPaid.toLocaleString()}`} icon={Banknote} />
+        <StatCard label="Outstanding Balance" value={`Rs. ${totalOutstanding.toLocaleString()}`} icon={Wallet} />
+        <StatCard label="Total Paid" value={`Rs. ${totalPaid.toLocaleString()}`} icon={Banknote} />
         <StatCard label="Unpaid Invoices" value={unpaidCount} icon={ReceiptText} />
       </div>
 
@@ -72,15 +72,15 @@ export default async function StudentFeesPage() {
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <div>
                     <p className="text-xs text-muted-foreground">Total</p>
-                    <p className="text-lg font-semibold tabular-nums">₹{total.toLocaleString()}</p>
+                    <p className="text-lg font-semibold tabular-nums">Rs. {total.toLocaleString()}</p>
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">Paid</p>
-                    <p className="text-lg font-semibold tabular-nums">₹{paid.toLocaleString()}</p>
+                    <p className="text-lg font-semibold tabular-nums">Rs. {paid.toLocaleString()}</p>
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">Balance</p>
-                    <p className="text-lg font-semibold tabular-nums">₹{balance.toLocaleString()}</p>
+                    <p className="text-lg font-semibold tabular-nums">Rs. {balance.toLocaleString()}</p>
                   </div>
                 </div>
 
@@ -97,7 +97,7 @@ export default async function StudentFeesPage() {
                       {invoice.items.map((item) => (
                         <TableRow key={item.id}>
                           <TableCell>{item.feeCategory.name}</TableCell>
-                          <TableCell className="text-right">₹{item.amount.toLocaleString()}</TableCell>
+                          <TableCell className="text-right">Rs. {item.amount.toLocaleString()}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -120,7 +120,7 @@ export default async function StudentFeesPage() {
                           <TableRow key={payment.id}>
                             <TableCell>{payment.paymentDate.toLocaleDateString()}</TableCell>
                             <TableCell>{payment.method.replace("_", " ")}</TableCell>
-                            <TableCell className="text-right">₹{payment.amount.toLocaleString()}</TableCell>
+                            <TableCell className="text-right">Rs. {payment.amount.toLocaleString()}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>

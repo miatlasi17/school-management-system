@@ -36,7 +36,7 @@ export default async function StudentLibraryPage() {
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard label="Currently Borrowed" value={borrowed.length} icon={BookOpen} />
         <StatCard label="Overdue" value={overdueCount} icon={AlertTriangle} />
-        <StatCard label="Total Fines" value={`₹${totalFines.toFixed(2)}`} icon={Library} />
+        <StatCard label="Total Fines" value={`Rs. ${totalFines.toFixed(2)}`} icon={Library} />
       </div>
 
       <div className="mb-6">
@@ -112,7 +112,7 @@ export default async function StudentLibraryPage() {
                       <TableCell>
                         <Badge variant={STATUS_VARIANT[issue.status] ?? "outline"}>{issue.status}</Badge>
                       </TableCell>
-                      <TableCell>{issue.fineAmount > 0 ? `₹${issue.fineAmount.toFixed(2)}` : "—"}</TableCell>
+                      <TableCell>{issue.fineAmount > 0 ? `Rs. ${issue.fineAmount.toFixed(2)}` : "—"}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
