@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { InvoiceStatus } from "@prisma/client";
 import { RecordPaymentDialog } from "./payment-dialog";
+import { EditInvoiceDialog, DeleteInvoiceButton } from "./edit-invoice-dialog";
 
 const STATUS_BADGE_VARIANT: Record<InvoiceStatus, "default" | "secondary" | "destructive" | "outline"> = {
   UNPAID: "destructive",
@@ -24,15 +25,18 @@ export default async function InvoiceDetailPage({
 }) {
   const { invoiceId } = await params;
 
-  const invoice = await prisma.invoice.findUnique({
-    where: { id: invoiceId },
-    include: {
-      student: { include: { user: true, section: { include: { class: true } } } },
-      academicYear: true,
-      items: { include: { feeCategory: true } },
-      payments: { include: { receivedBy: true }, orderBy: { paymentDate: "desc" } },
-    },
-  });
+  const [invoice, feeCategories] = await Promise.all([
+    prisma.invoice.findUnique({
+      where: { id: invoiceId },
+      include: {
+        student: { include: { user: true, section: { include: { class: true } } } },
+        academicYear: true,
+        items: { include: { feeCategory: true } },
+        payments: { include: { receivedBy: true }, orderBy: { paymentDate: "desc" } },
+      },
+    }),
+    prisma.feeCategory.findMany({ orderBy: { name: "asc" } }),
+  ]);
 
   if (!invoice) notFound();
 
@@ -52,7 +56,18 @@ export default async function InvoiceDetailPage({
       <PageHeader
         title={`Invoice ${invoice.invoiceNumber}`}
         description={`${invoice.academicYear.name} · Issued ${invoice.issueDate.toLocaleDateString()}`}
-        action={balance > 0 ? <RecordPaymentDialog invoiceId={invoice.id} maxAmount={balance} /> : null}
+        action={
+          <div className="flex flex-wrap items-center gap-2">
+            <EditInvoiceDialog
+              invoiceId={invoice.id}
+              dueDate={invoice.dueDate.toISOString().slice(0, 10)}
+              items={invoice.items.map((item) => ({ feeCategoryId: item.feeCategoryId, amount: item.amount }))}
+              feeCategories={feeCategories.map((c) => ({ id: c.id, label: c.name }))}
+            />
+            {invoice.payments.length === 0 ? <DeleteInvoiceButton invoiceId={invoice.id} /> : null}
+            {balance > 0 ? <RecordPaymentDialog invoiceId={invoice.id} maxAmount={balance} /> : null}
+          </div>
+        }
       />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">

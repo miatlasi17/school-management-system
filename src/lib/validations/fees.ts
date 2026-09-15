@@ -13,6 +13,19 @@ export const feeStructureSchema = z.object({
 });
 export type FeeStructureInput = z.infer<typeof feeStructureSchema>;
 
+export const updateInvoiceSchema = z.object({
+  dueDate: z.string().min(1, "Due date is required"),
+  items: z
+    .array(
+      z.object({
+        feeCategoryId: z.string().min(1, "Category is required"),
+        amount: z.number().positive("Amount must be greater than 0"),
+      })
+    )
+    .min(1, "At least one line item is required"),
+});
+export type UpdateInvoiceInput = z.infer<typeof updateInvoiceSchema>;
+
 export const recordPaymentSchema = z.object({
   invoiceId: z.string().min(1),
   amount: z.number().positive("Amount must be greater than 0"),

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { InvoiceStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/session";
-import { feeCategorySchema, feeStructureSchema, recordPaymentSchema } from "@/lib/validations/fees";
+import { feeCategorySchema, feeStructureSchema, recordPaymentSchema, updateInvoiceSchema } from "@/lib/validations/fees";
 import { errorResult, type ActionResult } from "@/lib/action-result";
 
 // ---------------------------------------------------------------------------
@@ -151,6 +151,53 @@ export async function generateInvoicesForClass(
     return { success: true, created };
   } catch {
     return { error: "Could not generate invoices." };
+  }
+}
+
+export async function updateInvoice(id: string, input: unknown): Promise<ActionResult> {
+  await requireUser("ADMIN");
+  const parsed = updateInvoiceSchema.safeParse(input);
+  if (!parsed.success) return { error: parsed.error.issues[0].message };
+
+  const dueDate = new Date(parsed.data.dueDate);
+  if (Number.isNaN(dueDate.getTime())) return { error: "Invalid due date." };
+
+  try {
+    const invoice = await prisma.invoice.findUnique({
+      where: { id },
+      include: { payments: true },
+    });
+    if (!invoice) return { error: "Invoice not found." };
+
+    const newTotal = parsed.data.items.reduce((sum, item) => sum + item.amount, 0);
+    const paid = invoice.payments.reduce((sum, p) => sum + p.amount, 0);
+    const status: InvoiceStatus =
+      invoice.status === InvoiceStatus.CANCELLED
+        ? InvoiceStatus.CANCELLED
+        : paid >= newTotal && newTotal > 0
+          ? InvoiceStatus.PAID
+          : paid > 0
+            ? InvoiceStatus.PARTIALLY_PAID
+            : InvoiceStatus.UNPAID;
+
+    await prisma.$transaction([
+      prisma.invoiceItem.deleteMany({ where: { invoiceId: id } }),
+      prisma.invoice.update({
+        where: { id },
+        data: {
+          dueDate,
+          status,
+          items: { create: parsed.data.items },
+        },
+      }),
+    ]);
+
+    revalidatePath("/admin/fees");
+    revalidatePath(`/admin/fees/${id}`);
+    revalidatePath("/student/fees");
+    return { success: true };
+  } catch (error) {
+    return errorResult(error, "Could not update invoice.");
   }
 }
 
