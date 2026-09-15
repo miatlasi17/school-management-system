@@ -59,8 +59,8 @@ export default async function PayrollPage({
       <PayrollFilters month={month} year={year} />
 
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Total Gross" value={`£${totalGross.toLocaleString()}`} icon={Banknote} />
-        <StatCard label="Total Net" value={`£${totalNet.toLocaleString()}`} icon={Wallet} />
+        <StatCard label="Total Gross" value={`₹${totalGross.toLocaleString()}`} icon={Banknote} />
+        <StatCard label="Total Net" value={`₹${totalNet.toLocaleString()}`} icon={Wallet} />
         <StatCard label="Paid" value={paidCount} icon={CheckCircle2} />
         <StatCard label="Pending" value={pendingCount} icon={Clock} />
       </div>
@@ -94,9 +94,9 @@ export default async function PayrollPage({
                     <TableCell>
                       <Badge variant="outline">{payroll.teacher ? "Teacher" : "Staff"}</Badge>
                     </TableCell>
-                    <TableCell>£{payroll.grossSalary.toLocaleString()}</TableCell>
-                    <TableCell>£{payroll.deductions.toLocaleString()}</TableCell>
-                    <TableCell>£{payroll.netSalary.toLocaleString()}</TableCell>
+                    <TableCell>₹{payroll.grossSalary.toLocaleString()}</TableCell>
+                    <TableCell>₹{payroll.deductions.toLocaleString()}</TableCell>
+                    <TableCell>₹{payroll.netSalary.toLocaleString()}</TableCell>
                     <TableCell>
                       <Badge variant={payroll.status === "PAID" ? "default" : "secondary"}>{payroll.status}</Badge>
                     </TableCell>

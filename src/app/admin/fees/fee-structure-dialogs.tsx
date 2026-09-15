@@ -137,7 +137,7 @@ function FeeStructureForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="amount">Amount (£)</Label>
+        <Label htmlFor="amount">Amount (₹)</Label>
         <Input id="amount" type="number" step="0.01" min="0" {...register("amount", { valueAsNumber: true })} />
         {errors.amount ? <p className="text-sm text-destructive">{errors.amount.message}</p> : null}
       </div>

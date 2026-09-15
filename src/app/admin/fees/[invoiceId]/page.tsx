@@ -84,9 +84,9 @@ export default async function InvoiceDetailPage({
             <CardTitle className="text-base">Balance</CardTitle>
           </CardHeader>
           <CardContent className="space-y-1 text-sm">
-            <p className="text-2xl font-semibold tabular-nums">£{balance.toLocaleString()}</p>
+            <p className="text-2xl font-semibold tabular-nums">₹{balance.toLocaleString()}</p>
             <p className="text-muted-foreground">
-              £{paid.toLocaleString()} paid of £{total.toLocaleString()}
+              ₹{paid.toLocaleString()} paid of ₹{total.toLocaleString()}
             </p>
           </CardContent>
         </Card>
@@ -109,7 +109,7 @@ export default async function InvoiceDetailPage({
                 {invoice.items.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>{item.feeCategory.name}</TableCell>
-                    <TableCell className="text-right">£{item.amount.toLocaleString()}</TableCell>
+                    <TableCell className="text-right">₹{item.amount.toLocaleString()}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -140,7 +140,7 @@ export default async function InvoiceDetailPage({
                       <TableCell>{payment.paymentDate.toLocaleDateString()}</TableCell>
                       <TableCell>{payment.method.replace("_", " ")}</TableCell>
                       <TableCell>{payment.transactionRef ?? "—"}</TableCell>
-                      <TableCell className="text-right">£{payment.amount.toLocaleString()}</TableCell>
+                      <TableCell className="text-right">₹{payment.amount.toLocaleString()}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

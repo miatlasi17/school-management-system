@@ -56,7 +56,7 @@ export default async function AdminDashboardPage() {
         <StatCard label="Teachers" value={teacherCount} icon={GraduationCap} hint={`${sectionCount} sections`} />
         <StatCard
           label="Outstanding Fees"
-          value={`£${totalOutstanding.toLocaleString()}`}
+          value={`₹${totalOutstanding.toLocaleString()}`}
           icon={Wallet}
           hint={`${outstandingInvoices.length} unpaid invoices`}
         />

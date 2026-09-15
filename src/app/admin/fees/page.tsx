@@ -90,10 +90,10 @@ export default async function AdminFeesPage({
       <PageHeader title="Fees & Finance" description="Manage fee categories, fee structures and student invoices." />
 
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <StatCard label="Total Outstanding" value={`£${totalOutstanding.toLocaleString()}`} icon={Wallet} />
+        <StatCard label="Total Outstanding" value={`₹${totalOutstanding.toLocaleString()}`} icon={Wallet} />
         <StatCard
           label="Collected This Year"
-          value={`£${(totalCollected._sum.amount ?? 0).toLocaleString()}`}
+          value={`₹${(totalCollected._sum.amount ?? 0).toLocaleString()}`}
           icon={Banknote}
           hint={currentYear ? currentYear.name : "No current academic year set"}
         />
@@ -170,12 +170,12 @@ export default async function AdminFeesPage({
                           </TableCell>
                           <TableCell>
                             <Link href={`/admin/fees/${invoice.id}`} className="block py-2">
-                              £{total.toLocaleString()}
+                              ₹{total.toLocaleString()}
                             </Link>
                           </TableCell>
                           <TableCell>
                             <Link href={`/admin/fees/${invoice.id}`} className="block py-2">
-                              £{paid.toLocaleString()}
+                              ₹{paid.toLocaleString()}
                             </Link>
                           </TableCell>
                           <TableCell>
@@ -236,7 +236,7 @@ export default async function AdminFeesPage({
                             <TableRow key={fs.id}>
                               <TableCell className="font-medium">{fs.feeCategory.name}</TableCell>
                               <TableCell>{fs.academicYear.name}</TableCell>
-                              <TableCell>£{fs.amount.toLocaleString()}</TableCell>
+                              <TableCell>₹{fs.amount.toLocaleString()}</TableCell>
                               <TableCell className="text-right">
                                 <div className="flex justify-end gap-1">
                                   <AddEditFeeStructureDialog

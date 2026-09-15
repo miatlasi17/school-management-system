@@ -216,7 +216,7 @@ export function ReturnBookButton({
           <AlertDialogDescription>
             This will mark the book as returned by {studentName} and restore one available copy.
             {isOverdue
-              ? ` This return is ${daysLate} day${daysLate === 1 ? "" : "s"} overdue — a fine of £${estimatedFine.toFixed(2)} will be recorded.`
+              ? ` This return is ${daysLate} day${daysLate === 1 ? "" : "s"} overdue — a fine of ₹${estimatedFine.toFixed(2)} will be recorded.`
               : ""}
           </AlertDialogDescription>
         </AlertDialogHeader>

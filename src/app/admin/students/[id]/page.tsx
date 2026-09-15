@@ -79,7 +79,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
           icon={ClipboardCheck}
         />
         <StatCard label="Exams Recorded" value={marksByExam.size} icon={GraduationCap} />
-        <StatCard label="Fees Outstanding" value={`£${(totalDue - totalPaid).toLocaleString()}`} icon={Wallet} />
+        <StatCard label="Fees Outstanding" value={`₹${(totalDue - totalPaid).toLocaleString()}`} icon={Wallet} />
         <StatCard
           label="Books Issued"
           value={bookIssues.filter((b) => b.status === "ISSUED" || b.status === "OVERDUE").length}
@@ -228,8 +228,8 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
                         <TableRow key={inv.id}>
                           <TableCell className="font-medium">{inv.invoiceNumber}</TableCell>
                           <TableCell>{format(inv.dueDate, "d MMM yyyy")}</TableCell>
-                          <TableCell>£{amount.toLocaleString()}</TableCell>
-                          <TableCell>£{paid.toLocaleString()}</TableCell>
+                          <TableCell>₹{amount.toLocaleString()}</TableCell>
+                          <TableCell>₹{paid.toLocaleString()}</TableCell>
                           <TableCell>
                             <Badge variant={inv.status === "PAID" ? "secondary" : inv.status === "OVERDUE" ? "destructive" : "outline"}>
                               {inv.status.replace("_", " ")}
