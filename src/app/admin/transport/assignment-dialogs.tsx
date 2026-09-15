@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { assignTransportSchema, type AssignTransportInput } from "@/lib/validations/transport";
 import { assignStudentTransport, removeStudentTransport } from "@/actions/transport";
+import { toSelectItems } from "@/lib/utils";
 
 type Option = { id: string; label: string };
 type StopOption = { id: string; name: string; routeId: string };
@@ -98,7 +99,7 @@ export function AssignTransportDialog({
               control={control}
               name="studentId"
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(students)}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a student" />
                   </SelectTrigger>
@@ -121,7 +122,7 @@ export function AssignTransportDialog({
               control={control}
               name="routeId"
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(routes)}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a route" />
                   </SelectTrigger>
@@ -148,6 +149,7 @@ export function AssignTransportDialog({
                   value={field.value || "none"}
                   onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
                   disabled={!selectedRouteId}
+                  items={{ none: "No stop", ...toSelectItems(stopsForRoute.map((s) => ({ id: s.id, label: s.name }))) }}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="No stop" />

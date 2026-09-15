@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { feeStructureSchema, type FeeStructureInput } from "@/lib/validations/fees";
 import { upsertFeeStructure, deleteFeeStructure } from "@/actions/fees";
+import { toSelectItems } from "@/lib/utils";
 
 type Option = { id: string; label: string };
 
@@ -73,7 +74,7 @@ function FeeStructureForm({
           control={control}
           name="classId"
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(classes)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a class" />
               </SelectTrigger>
@@ -96,7 +97,7 @@ function FeeStructureForm({
           control={control}
           name="feeCategoryId"
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(categories)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a fee category" />
               </SelectTrigger>
@@ -119,7 +120,7 @@ function FeeStructureForm({
           control={control}
           name="academicYearId"
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(academicYears)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select an academic year" />
               </SelectTrigger>

@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { recordPaymentSchema, type RecordPaymentInput } from "@/lib/validations/fees";
 import { recordPayment } from "@/actions/fees";
+import { toSelectItems } from "@/lib/utils";
 
 const PAYMENT_METHODS: { value: RecordPaymentInput["method"]; label: string }[] = [
   { value: "CASH", label: "Cash" },
@@ -29,6 +30,7 @@ const PAYMENT_METHODS: { value: RecordPaymentInput["method"]; label: string }[] 
   { value: "ONLINE", label: "Online" },
   { value: "CHEQUE", label: "Cheque" },
 ];
+const PAYMENT_METHOD_ITEMS = toSelectItems(PAYMENT_METHODS);
 
 export function RecordPaymentDialog({ invoiceId, maxAmount }: { invoiceId: string; maxAmount: number }) {
   const [open, setOpen] = useState(false);
@@ -83,7 +85,7 @@ export function RecordPaymentDialog({ invoiceId, maxAmount }: { invoiceId: strin
               control={control}
               name="method"
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select value={field.value} onValueChange={field.onChange} items={PAYMENT_METHOD_ITEMS}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a method" />
                   </SelectTrigger>

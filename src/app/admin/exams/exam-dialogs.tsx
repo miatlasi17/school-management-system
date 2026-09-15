@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { examSchema, type ExamInput } from "@/lib/validations/exams";
 import { createExam, updateExam, deleteExam } from "@/actions/exams";
+import { toSelectItems } from "@/lib/utils";
 
 type Option = { id: string; label: string };
 
@@ -67,7 +68,7 @@ function ExamForm({
           control={control}
           name="academicYearId"
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(academicYears)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select an academic year" />
               </SelectTrigger>

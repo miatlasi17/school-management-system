@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { routeSchema, type RouteInput } from "@/lib/validations/transport";
 import { createRoute, updateRoute, deleteRoute } from "@/actions/transport";
+import { toSelectItems } from "@/lib/utils";
 
 type Option = { id: string; label: string };
 
@@ -67,7 +68,11 @@ function RouteForm({
           control={control}
           name="vehicleId"
           render={({ field }) => (
-            <Select value={field.value || "none"} onValueChange={(v) => field.onChange(v === "none" ? "" : v)}>
+            <Select
+              value={field.value || "none"}
+              onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
+              items={{ none: "Unassigned", ...toSelectItems(vehicles) }}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Unassigned" />
               </SelectTrigger>

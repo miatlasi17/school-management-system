@@ -23,6 +23,8 @@ import {
 import { createTeacherSchema, type CreateTeacherInput } from "@/lib/validations/people";
 import { createTeacher, updateTeacher } from "@/actions/people";
 
+const GENDER_ITEMS = { unspecified: "Unspecified", MALE: "Male", FEMALE: "Female", OTHER: "Other" };
+
 const emptyTeacher: CreateTeacherInput = {
   name: "",
   email: "",
@@ -86,6 +88,7 @@ function TeacherForm({
               <Select
                 value={field.value || "unspecified"}
                 onValueChange={(v) => field.onChange(v === "unspecified" || v === null ? "" : (v as CreateTeacherInput["gender"]))}
+                items={GENDER_ITEMS}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Unspecified" />

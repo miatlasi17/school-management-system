@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { allocateRoomSchema, type AllocateRoomInput } from "@/lib/validations/hostel";
 import { allocateRoom, deallocateRoom } from "@/actions/hostel";
+import { toSelectItems } from "@/lib/utils";
 
 type Option = { id: string; label: string };
 
@@ -106,7 +107,7 @@ export function AllocateRoomDialog({
               control={control}
               name="studentId"
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(students)}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a student" />
                   </SelectTrigger>

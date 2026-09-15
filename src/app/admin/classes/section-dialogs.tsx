@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { sectionSchema, type SectionInput } from "@/lib/validations/academic";
 import { createSection, updateSection, deleteSection } from "@/actions/academic";
+import { toSelectItems } from "@/lib/utils";
 
 type Option = { id: string; label: string };
 
@@ -63,7 +64,7 @@ function SectionForm({
           control={control}
           name="classId"
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(classes)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a class" />
               </SelectTrigger>
@@ -97,7 +98,11 @@ function SectionForm({
           control={control}
           name="classTeacherId"
           render={({ field }) => (
-            <Select value={field.value || "none"} onValueChange={(v) => field.onChange(v === "none" ? "" : v)}>
+            <Select
+              value={field.value || "none"}
+              onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
+              items={{ none: "Unassigned", ...toSelectItems(teachers) }}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Unassigned" />
               </SelectTrigger>

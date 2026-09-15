@@ -34,6 +34,10 @@ import { staffSchema, type StaffInput } from "@/lib/validations/hr";
 import { createStaff, updateStaff, setStaffActive } from "@/actions/hr";
 
 const GENDER_OPTIONS = ["MALE", "FEMALE", "OTHER"] as const;
+const GENDER_ITEMS: Record<string, string> = {
+  unspecified: "Unspecified",
+  ...Object.fromEntries(GENDER_OPTIONS.map((g) => [g, g.charAt(0) + g.slice(1).toLowerCase()])),
+};
 
 function StaffForm({
   defaultValues,
@@ -102,7 +106,11 @@ function StaffForm({
             control={control}
             name="gender"
             render={({ field }) => (
-              <Select value={field.value || "unspecified"} onValueChange={(v) => field.onChange(v === "unspecified" ? "" : v)}>
+              <Select
+                value={field.value || "unspecified"}
+                onValueChange={(v) => field.onChange(v === "unspecified" ? "" : v)}
+                items={GENDER_ITEMS}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Unspecified" />
                 </SelectTrigger>

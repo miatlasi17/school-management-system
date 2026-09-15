@@ -33,6 +33,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { createStudentSchema, type CreateStudentInput } from "@/lib/validations/people";
 import { createStudent, updateStudent, setStudentActive } from "@/actions/people";
+import { toSelectItems } from "@/lib/utils";
+
+const GENDER_ITEMS = { unspecified: "Unspecified", MALE: "Male", FEMALE: "Female", OTHER: "Other" };
 
 type Option = { id: string; label: string };
 
@@ -110,7 +113,7 @@ function StudentForm({
             control={control}
             name="sectionId"
             render={({ field }) => (
-              <Select value={field.value} onValueChange={field.onChange}>
+              <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(sections)}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a section" />
                 </SelectTrigger>
@@ -135,6 +138,7 @@ function StudentForm({
               <Select
                 value={field.value || "unspecified"}
                 onValueChange={(v) => field.onChange(v === "unspecified" || v === null ? "" : (v as CreateStudentInput["gender"]))}
+                items={GENDER_ITEMS}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Unspecified" />
@@ -428,7 +432,11 @@ export function StudentSectionFilter({ sections, sectionId }: { sections: Option
   return (
     <div className="mb-6 max-w-xs space-y-2">
       <Label>Filter by section</Label>
-      <Select value={sectionId || "all"} onValueChange={handleChange}>
+      <Select
+        value={sectionId || "all"}
+        onValueChange={handleChange}
+        items={{ all: "All sections", ...toSelectItems(sections) }}
+      >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="All sections" />
         </SelectTrigger>

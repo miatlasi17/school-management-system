@@ -33,6 +33,8 @@ import {
 import { hostelSchema, type HostelInput } from "@/lib/validations/hostel";
 import { createHostel, updateHostel, deleteHostel } from "@/actions/hostel";
 
+const HOSTEL_TYPE_ITEMS = { BOYS: "Boys", GIRLS: "Girls" };
+
 function HostelForm({
   defaultValues,
   onSubmit,
@@ -63,7 +65,7 @@ function HostelForm({
           control={control}
           name="type"
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value} onValueChange={field.onChange} items={HOSTEL_TYPE_ITEMS}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a type" />
               </SelectTrigger>

@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { updateInvoiceSchema, type UpdateInvoiceInput } from "@/lib/validations/fees";
 import { updateInvoice, deleteInvoice } from "@/actions/fees";
+import { toSelectItems } from "@/lib/utils";
 
 type Option = { id: string; label: string };
 
@@ -120,7 +121,11 @@ export function EditInvoiceDialog({
                     control={control}
                     name={`items.${index}.feeCategoryId`}
                     render={({ field: selectField }) => (
-                      <Select value={selectField.value} onValueChange={selectField.onChange}>
+                      <Select
+                        value={selectField.value}
+                        onValueChange={selectField.onChange}
+                        items={toSelectItems(feeCategories)}
+                      >
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Category" />
                         </SelectTrigger>

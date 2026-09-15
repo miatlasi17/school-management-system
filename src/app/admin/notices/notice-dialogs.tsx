@@ -33,12 +33,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { noticeSchema, type NoticeInput } from "@/lib/validations/communication";
 import { createNotice, deleteNotice } from "@/actions/communication";
+import { toSelectItems } from "@/lib/utils";
 
 const AUDIENCE_OPTIONS = [
   { value: "ALL", label: "Everyone" },
   { value: "TEACHERS", label: "Teachers" },
   { value: "STUDENTS", label: "Students" },
 ] as const;
+const AUDIENCE_ITEMS = toSelectItems(AUDIENCE_OPTIONS);
 
 function NoticeForm({
   defaultValues,
@@ -76,7 +78,7 @@ function NoticeForm({
           control={control}
           name="audience"
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value} onValueChange={field.onChange} items={AUDIENCE_ITEMS}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select audience" />
               </SelectTrigger>

@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { timetableSlotSchema, DAY_OF_WEEK_VALUES, DAY_LABELS, type TimetableSlotInput } from "@/lib/validations/timetable";
 import { createTimetableSlot, updateTimetableSlot, deleteTimetableSlot } from "@/actions/timetable";
+import { toSelectItems } from "@/lib/utils";
 
 type Option = { id: string; label: string };
 
@@ -64,7 +65,7 @@ function SlotForm({
           control={control}
           name="subjectId"
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(subjects)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a subject" />
               </SelectTrigger>
@@ -87,7 +88,7 @@ function SlotForm({
           control={control}
           name="teacherId"
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(teachers)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a teacher" />
               </SelectTrigger>
@@ -110,7 +111,7 @@ function SlotForm({
           control={control}
           name="dayOfWeek"
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value} onValueChange={field.onChange} items={DAY_LABELS}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a day" />
               </SelectTrigger>

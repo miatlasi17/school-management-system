@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { sendMessageSchema, type SendMessageInput } from "@/lib/validations/communication";
 import { sendMessage } from "@/actions/communication";
+import { toSelectItems } from "@/lib/utils";
 
 type Recipient = { id: string; label: string };
 
@@ -72,7 +73,7 @@ export function ComposeDialog({ recipients }: { recipients: Recipient[] }) {
               control={control}
               name="receiverId"
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(recipients)}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a recipient" />
                   </SelectTrigger>

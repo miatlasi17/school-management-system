@@ -33,12 +33,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { eventSchema, type EventInput } from "@/lib/validations/communication";
 import { createEvent, deleteEvent } from "@/actions/communication";
+import { toSelectItems } from "@/lib/utils";
 
 const AUDIENCE_OPTIONS = [
   { value: "ALL", label: "Everyone" },
   { value: "TEACHERS", label: "Teachers" },
   { value: "STUDENTS", label: "Students" },
 ] as const;
+const AUDIENCE_ITEMS = toSelectItems(AUDIENCE_OPTIONS);
 
 function EventForm({
   defaultValues,
@@ -93,7 +95,7 @@ function EventForm({
           control={control}
           name="audience"
           render={({ field }) => (
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value} onValueChange={field.onChange} items={AUDIENCE_ITEMS}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select audience" />
               </SelectTrigger>

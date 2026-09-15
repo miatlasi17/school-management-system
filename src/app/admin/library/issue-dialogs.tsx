@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { issueBookSchema, type IssueBookInput } from "@/lib/validations/library";
 import { issueBook, returnBook } from "@/actions/library";
+import { toSelectItems } from "@/lib/utils";
 
 type BookOption = { id: string; label: string; availableCopies: number };
 type StudentOption = { id: string; label: string };
@@ -116,7 +117,13 @@ export function IssueBookDialog({
                 control={control}
                 name="bookId"
                 render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    items={toSelectItems(
+                      availableBooks.map((b) => ({ id: b.id, label: `${b.label} (${b.availableCopies} available)` }))
+                    )}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a book" />
                     </SelectTrigger>
@@ -140,7 +147,7 @@ export function IssueBookDialog({
               control={control}
               name="studentId"
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(students)}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a student" />
                   </SelectTrigger>

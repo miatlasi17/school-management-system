@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toSelectItems } from "@/lib/utils";
 
 type SectionOption = { id: string; label: string };
 
@@ -36,6 +37,7 @@ export function AttendanceFilters({
           onValueChange={(value) => {
             if (typeof value === "string") updateParam("sectionId", value);
           }}
+          items={toSelectItems(sections)}
         >
           <SelectTrigger className="w-full sm:w-56">
             <SelectValue placeholder="Select a section" />

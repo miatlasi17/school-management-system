@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { examSubjectSchema, type ExamSubjectInput } from "@/lib/validations/exams";
 import { createExamSubject, deleteExamSubject } from "@/actions/exams";
+import { toSelectItems } from "@/lib/utils";
 
 type Option = { id: string; label: string };
 
@@ -99,7 +100,7 @@ export function AddExamSubjectDialog({
               control={control}
               name="classId"
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(classes)}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a class" />
                   </SelectTrigger>
@@ -122,7 +123,7 @@ export function AddExamSubjectDialog({
               control={control}
               name="subjectId"
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select value={field.value} onValueChange={field.onChange} items={toSelectItems(subjects)}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a subject" />
                   </SelectTrigger>
@@ -145,7 +146,11 @@ export function AddExamSubjectDialog({
               control={control}
               name="invigilatorId"
               render={({ field }) => (
-                <Select value={field.value || "none"} onValueChange={(v) => field.onChange(v === "none" ? "" : v)}>
+                <Select
+                  value={field.value || "none"}
+                  onValueChange={(v) => field.onChange(v === "none" ? "" : v)}
+                  items={{ none: "Unassigned", ...toSelectItems(teachers) }}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Unassigned" />
                   </SelectTrigger>

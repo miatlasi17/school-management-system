@@ -18,6 +18,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { generateInvoicesForClass } from "@/actions/fees";
+import { toSelectItems } from "@/lib/utils";
 
 type Option = { id: string; label: string };
 
@@ -64,7 +65,7 @@ export function GenerateInvoicesDialog({ classes, academicYears }: { classes: Op
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label>Class</Label>
-            <Select value={classId} onValueChange={(value) => setClassId(value ?? "")}>
+            <Select value={classId} onValueChange={(value) => setClassId(value ?? "")} items={toSelectItems(classes)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a class" />
               </SelectTrigger>
@@ -79,7 +80,11 @@ export function GenerateInvoicesDialog({ classes, academicYears }: { classes: Op
           </div>
           <div className="space-y-2">
             <Label>Academic year</Label>
-            <Select value={academicYearId} onValueChange={(value) => setAcademicYearId(value ?? "")}>
+            <Select
+              value={academicYearId}
+              onValueChange={(value) => setAcademicYearId(value ?? "")}
+              items={toSelectItems(academicYears)}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select an academic year" />
               </SelectTrigger>

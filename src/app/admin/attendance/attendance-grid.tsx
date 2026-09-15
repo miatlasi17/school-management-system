@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
 import { submitAttendance } from "@/actions/attendance";
+import { toSelectItems } from "@/lib/utils";
 
 const STATUS_OPTIONS: { value: AttendanceStatus; label: string }[] = [
   { value: "PRESENT", label: "Present" },
@@ -18,6 +19,7 @@ const STATUS_OPTIONS: { value: AttendanceStatus; label: string }[] = [
   { value: "HALF_DAY", label: "Half Day" },
   { value: "EXCUSED", label: "Excused" },
 ];
+const STATUS_ITEMS = toSelectItems(STATUS_OPTIONS);
 
 export type AttendanceStudent = {
   id: string;
@@ -114,6 +116,7 @@ export function AttendanceGrid({
                   <Select
                     value={rows[student.id]?.status ?? "PRESENT"}
                     onValueChange={(value) => setStatus(student.id, value as AttendanceStatus)}
+                    items={STATUS_ITEMS}
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue />
